@@ -103,10 +103,27 @@ public class CheckoutSolution {
             totalPrice += itemCounts.get('F') / 3 * 20 + itemCounts.get('F') % 3 * 10;
         }
 
-        totalPrice += nonOfferItemsSum('G') + nonOfferItemsSum('I'), nonOfferItemsSum('J') +
+        totalPrice += nonOfferItemsSum('G') + nonOfferItemsSum('I') + nonOfferItemsSum('J') +
                 nonOfferItemsSum('L') + nonOfferItemsSum('O') + nonOfferItemsSum('S') +
                 nonOfferItemsSum('T') + nonOfferItemsSum('W') + nonOfferItemsSum('X') +
-                nonOfferItemsSum('Y') + nonOfferItemsSum('Z')
+                nonOfferItemsSum('Y') + nonOfferItemsSum('Z');
+
+        totalPrice += itemCounts.getOrDefault('H', 0) / 10 * 80 + (itemCounts.getOrDefault('H', 0) % 10) / 5 * 45 +
+                ((itemCounts.getOrDefault('H', 0) % 10) % 5) * 10;
+
+        totalPrice += itemCounts.getOrDefault('K', 0) / 2 * 150 +
+                itemCounts.getOrDefault('K', 0) % 2 * 80;
+
+        int NCount = itemCounts.getOrDefault('N', 0);
+        int MCount = itemCounts.getOrDefault('M', 0);
+
+        if (MCount > 0) {
+            int updatedValue = Math.max(0, MCount - NCount / 2);
+            itemCounts.put('M', updatedValue);
+            totalPrice += itemCounts.get('M') * 15;
+        }
+
+        totalPrice += nonOfferItemsSum('N');
 
         return totalPrice;
     }
@@ -135,6 +152,7 @@ public class CheckoutSolution {
         }
     }
 }
+
 
 
 

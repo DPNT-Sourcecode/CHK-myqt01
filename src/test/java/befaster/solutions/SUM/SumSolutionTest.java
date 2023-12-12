@@ -62,4 +62,15 @@ public class SumSolutionTest {
     public void checkoutSolution_FFFF() {
         assertThat(checkoutSolution.checkout("FFFF"), equalTo(30));
     }
+
+    @Test
+    public void checkoutSolution_5H() {
+        assertThat(checkoutSolution.checkout("HHHHH"), equalTo(45));
+    }
+
+    @Test
+    public void checkoutSolution_kk() {
+        assertThat(checkoutSolution.checkout("KK"), equalTo(150));
+    }
 }
+
