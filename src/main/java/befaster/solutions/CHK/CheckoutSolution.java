@@ -1,119 +1,104 @@
 package befaster.solutions.CHK;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class CheckoutSolution {
-    private static Map<Character, Integer> prices = new HashMap<>();
-    private static Map<Character, List<SpecialOffer>> specialOffers = new HashMap<>();
+
+    private static final Map<Character, Integer> PRICE_TABLE = new HashMap<>();
+    private static final Map<Character, SpecialOffer> SPECIAL_OFFERS = new HashMap<>();
 
     static {
-        prices.put('A', 50);
-        prices.put('B', 30);
-        prices.put('C', 20);
-        prices.put('D', 15);
-        prices.put('E', 40);
+        PRICE_TABLE.put('A', 50);
+        PRICE_TABLE.put('B', 30);
+        PRICE_TABLE.put('C', 20);
+        PRICE_TABLE.put('D', 15);
+        PRICE_TABLE.put('E', 40);
 
-        List<SpecialOffer> offersA = new ArrayList<>();
-        offersA.add(new SpecialOffer(3, 130));
-        offersA.add(new SpecialOffer(5, 200));
-        specialOffers.put('A', offersA);
-
-        List<SpecialOffer> offersB = new ArrayList<>();
-        offersB.add(new SpecialOffer(2, 45));
-        specialOffers.put('B', offersB);
-
-        List<SpecialOffer> offersE = new ArrayList<>();
-        offersE.add(new SpecialOffer(2, 30, 'B', 1));
-        specialOffers.put('E', offersE);
+        SPECIAL_OFFERS.put('A', new SpecialOffer(3, 130));
+        SPECIAL_OFFERS.put('A', new SpecialOffer(5, 200));
+        SPECIAL_OFFERS.put('B', new SpecialOffer(2, 45));
+        SPECIAL_OFFERS.put('E', new SpecialOffer(2, 1, 'B'));
     }
 
     public Integer checkout(String skus) {
-        if (skus == null || skus.isEmpty()) return 0;
+        if (skus == null || !isValidInput(skus)) {
+            return -1;
+        }
 
-        int totalPrice = 0;
+        Map<Character, Integer> itemCounts = countItems(skus);
 
-        Map<Character, Integer> itemCounts = new HashMap<>();
+        return calculateTotalPrice(itemCounts);
+    }
 
+    private boolean isValidInput(String skus) {
         for (char item : skus.toCharArray()) {
-            if (!prices.containsKey(item)) {
-                return -1;
+            if (!PRICE_TABLE.containsKey(item)) {
+                return false; // Invalid item
             }
+        }
+        return true;
+    }
+
+    private Map<Character, Integer> countItems(String skus) {
+        Map<Character, Integer> itemCounts = new HashMap<>();
+        for (char item : skus.toCharArray()) {
             itemCounts.put(item, itemCounts.getOrDefault(item, 0) + 1);
         }
+        return itemCounts;
+    }
 
+    private int calculateTotalPrice(Map<Character, Integer> itemCounts) {
+        int totalPrice = 0;
         for (Map.Entry<Character, Integer> entry : itemCounts.entrySet()) {
-            Character item = entry.getKey();
+            char item = entry.getKey();
             int count = entry.getValue();
 
-            totalPrice += calculateItemTotal(item, count, itemCounts);
-        }
+            int price = PRICE_TABLE.getOrDefault(item, 0);
+            SpecialOffer specialOffer = SPECIAL_OFFERS.get(item);
 
+            if (specialOffer != null) {
+                totalPrice += calculateSpecialOfferPrice(count, price, specialOffer, itemCounts);
+            } else {
+                totalPrice += count * price;
+            }
+        }
         return totalPrice;
     }
 
-    private static int calculateItemTotal(char item, int count, Map<Character, Integer> itemCounts) {
-        if (specialOffers.containsKey(item)) {
-            List<SpecialOffer> offers = specialOffers.get(item);
-            int minTotal = Integer.MAX_VALUE;
+    private int calculateSpecialOfferPrice(int count, int price, SpecialOffer specialOffer, Map<Character, Integer> itemCounts) {
+        if (specialOffer.quantity > 0 && count >= specialOffer.quantity) {
+            int specialPrice = (count / specialOffer.quantity) * specialOffer.price;
+            int remainingCount = count % specialOffer.quantity;
 
-            for (SpecialOffer offer : offers) {
-                int offerCount = count / offer.getQuantity();
-                int remainingCount = count % offer.getQuantity();
-
-                if (offer.getFreeItem() != '\0' && itemCounts.containsKey(offer.getFreeItem())) {
-                    int freeItemCount = itemCounts.get(offer.getFreeItem());
-                    int freeItems = Math.min(offer.getFreeItemCount(), offerCount);
-                    remainingCount -= freeItems * offer.getQuantity();
-                }
-
-                int currentTotal = offerCount * offer.getOfferPrice() + remainingCount * prices.get(item);
-                minTotal = Math.min(minTotal, currentTotal);
+            if (specialOffer.freeItemCount > 0 && itemCounts.containsKey(specialOffer.freeItem)) {
+                int freeItemCount = Math.min(itemCounts.get(specialOffer.freeItem), remainingCount);
+                remainingCount -= freeItemCount;
             }
 
-            return minTotal;
-        } else {
-            return count * prices.get(item);
+            return specialPrice + remainingCount * price;
         }
+        return count * price;
     }
 
     private static class SpecialOffer {
-        private final int quantity;
-        private final int offerPrice;
-        private final char freeItem;
-        private final int freeItemCount;
+        int quantity;
+        int price;
+        int freeItemCount;
+        char freeItem;
 
-        public SpecialOffer(int quantity, int offerPrice) {
+        SpecialOffer(int quantity, int price) {
             this.quantity = quantity;
-            this.offerPrice = offerPrice;
-            this.freeItem = '\0';
-            this.freeItemCount = 0;
+            this.price = price;
         }
 
-        public SpecialOffer(int quantity, int offerPrice, char freeItem, int freeItemCount) {
+        SpecialOffer(int quantity, int freeItemCount, char freeItem) {
             this.quantity = quantity;
-            this.offerPrice = offerPrice;
-            this.freeItem = freeItem;
             this.freeItemCount = freeItemCount;
-        }
-
-        public int getQuantity() {
-            return quantity;
-        }
-
-        public int getOfferPrice() {
-            return offerPrice;
-        }
-
-        public char getFreeItem() {
-            return freeItem;
-        }
-
-        public int getFreeItemCount() {
-            return freeItemCount;
+            this.freeItem = freeItem;
         }
     }
 }
+
+
 
