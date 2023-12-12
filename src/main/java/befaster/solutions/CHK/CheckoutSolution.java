@@ -174,11 +174,32 @@ public class CheckoutSolution {
 
         int groupPrice = groupDiscounts * 45;
 
-        groupPrice += itemCounts.getOrDefault('Z', 0) * PRICE_TABLE.getOrDefault('Z', 0);
-        groupPrice += itemCounts.getOrDefault('S', 0) * PRICE_TABLE.getOrDefault('S', 0);
-        groupPrice += itemCounts.getOrDefault('T', 0) * PRICE_TABLE.getOrDefault('T', 0);
-        groupPrice += itemCounts.getOrDefault('Y', 0) * PRICE_TABLE.getOrDefault('Y', 0);
-        groupPrice += itemCounts.getOrDefault('X', 0) * PRICE_TABLE.getOrDefault('X', 0);
+        if (groupCount % 3 != 0) {
+            int remainingItems = groupCount % 3;
+
+            while (remainingItems > 0) {
+                if (itemCounts.get('X') > 0) {
+                    groupPrice += itemCounts.get('X') * PRICE_TABLE.get('X');
+                    int oldCount = itemCounts.get('X') - 1;
+                    itemCounts.put('X', oldCount);
+                    remainingItems--;
+                } else if ((itemCounts.containsKey('S') || itemCounts.containsKey('Y') || itemCounts.containsKey('T'))) {
+                    
+                }
+            }
+
+
+
+            if ((itemCounts.containsKey('S') || itemCounts.containsKey('Y') || itemCounts.containsKey('T')) && remainingItems > 0) {
+                int minPriceItem = getMinPriceItem('S', 'Y', 'T');
+                groupPrice += itemCounts.get((char) minPriceItem) * PRICE_TABLE.get((char) minPriceItem);
+                remainingItems--;
+            }
+
+            if (remainingItems > 0) {
+                groupPrice += itemCounts.get('Z') * PRICE_TABLE.get('Z');
+            }
+        }
 
         return groupPrice;
     }
@@ -207,6 +228,7 @@ public class CheckoutSolution {
         }
     }
 }
+
 
 
 
