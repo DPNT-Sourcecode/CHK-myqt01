@@ -66,7 +66,7 @@ public class CheckoutSolution {
        totalPrice = itemCounts.get('C') * PRICE_TABLE.get('C') + itemCounts.get('D') * PRICE_TABLE.get('D') +
                itemCounts.get('E') * PRICE_TABLE.get('E');
 
-        itemCounts.put('B', itemCounts.getOrDefault('B', 0) ECount);
+        int updatedValue = Math.max(0, BCount - ECount / 2);
     }
 
 
@@ -90,9 +90,3 @@ public class CheckoutSolution {
         }
     }
 }
-
-
-
-
-
-

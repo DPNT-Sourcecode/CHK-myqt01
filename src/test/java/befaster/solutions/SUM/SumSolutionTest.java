@@ -58,5 +58,3 @@ public class SumSolutionTest {
         assertThat(checkoutSolution.checkout("EEB"), equalTo(80));
     }
 }
-
-
