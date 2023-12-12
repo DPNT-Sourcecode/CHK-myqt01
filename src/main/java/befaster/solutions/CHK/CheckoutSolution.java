@@ -105,9 +105,8 @@ public class CheckoutSolution {
         }
 
         totalPrice += nonOfferItemsSum('G', itemCounts) + nonOfferItemsSum('I', itemCounts) + nonOfferItemsSum('J', itemCounts) +
-                nonOfferItemsSum('L', itemCounts) + nonOfferItemsSum('O', itemCounts) + nonOfferItemsSum('S', itemCounts) +
-                nonOfferItemsSum('T', itemCounts) + nonOfferItemsSum('W', itemCounts) + nonOfferItemsSum('X', itemCounts) +
-                nonOfferItemsSum('Y', itemCounts) + nonOfferItemsSum('Z', itemCounts);
+                nonOfferItemsSum('L', itemCounts) + nonOfferItemsSum('O', itemCounts) +
+                nonOfferItemsSum('W', itemCounts) + ;
 
         totalPrice += itemCounts.getOrDefault('H', 0) / 10 * 80 + (itemCounts.getOrDefault('H', 0) % 10) / 5 * 45 +
                 ((itemCounts.getOrDefault('H', 0) % 10) % 5) * 10;
@@ -177,5 +176,6 @@ public class CheckoutSolution {
         }
     }
 }
+
 
 
