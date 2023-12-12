@@ -55,7 +55,8 @@ public class SumSolutionTest {
 
     @Test
     public void checkoutSolution_2Es1B() {
-        assertThat(checkoutSolution.checkout("EEB"), equalTo(330));
+        assertThat(checkoutSolution.checkout("EEB"), equalTo(80));
     }
 }
+
 

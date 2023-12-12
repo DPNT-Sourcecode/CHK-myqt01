@@ -27,8 +27,9 @@ public class CheckoutSolution {
         }
 
         Map<Character, Integer> itemCounts = countItems(skus);
+        int totalPrice = calculateTotalPrice(itemCounts);
 
-        return calculateTotalPrice(itemCounts);
+        return totalPrice;
     }
 
     private boolean isValidInput(String skus) {
