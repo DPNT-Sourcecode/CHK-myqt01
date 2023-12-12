@@ -70,9 +70,9 @@ public class CheckoutSolution {
        if (BCount > 0) {
            int updatedValue = Math.max(0, BCount - ECount / 2);
            itemCounts.put('B', updatedValue);
+           totalPrice += itemCounts.get('B') / 2 * 45 + itemCounts.get('B') % 2 * 30;
        }
 
-        totalPrice += itemCounts.get('B') / 2 * 45 + itemCounts.get('B') % 2 * 30;
 
         totalPrice += itemCounts.getOrDefault('A', 0) / 5 * 200 + (itemCounts.getOrDefault('A', 0) % 5) / 3 * 130 +
                 ((itemCounts.getOrDefault('A', 0) % 5) % 3) * 50;
@@ -102,6 +102,7 @@ public class CheckoutSolution {
         }
     }
 }
+
 
 
 
