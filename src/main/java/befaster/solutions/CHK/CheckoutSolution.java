@@ -1,7 +1,5 @@
 package befaster.solutions.CHK;
 
-import befaster.runner.SolutionNotImplementedException;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,8 +7,55 @@ public class CheckoutSolution {
     public Integer checkout(String skus) {
 
         Map<Character, Integer> prices = new HashMap<>();
-        
+        Map<Character, SpecialOffer> specialOffers = new HashMap<>();
 
+        prices.put('A', 50);
+        prices.put('B', 30);
+        prices.put('C', 20);
+        prices.put('D', 15);
+
+        specialOffers.put('A', new SpecialOffer(3, 130));
+        specialOffers.put('B', new SpecialOffer(2, 45));
+
+        if (skus == null || skus.isEmpty())  return 0;
+
+        int totalPrice = 0;
+
+        Map<Character, Integer> itemCounts = new HashMap<>();
+
+        for (char item : skus.toCharArray()) {
+            if (!prices.containsKey(item)) {
+                return -1;
+            }
+            itemCounts.put(item, itemCounts.getOrDefault(item, 0) + 1);
+        }
+
+        for (Map.Entry<Character, Integer> entry : itemCounts.entrySet()) {
+            char item = entry.getKey();
+            int count = entry.getValue();
+
+            if (specialOffers.containsKey(item)) {
+                SpecialOffer offer = specialOffers.get(item);
+                totalPrice +=  (count / offer.quantity) * offer.offerPrice +
+                        (count % offer.quantity) * prices.get(item);
+            } else {
+                totalPrice += count * prices.get(item);
+            }
+        }
+
+        return totalPrice;
+    }
+
+
+    private static class SpecialOffer {
+        private int quantity;
+        private int offerPrice;
+
+        public SpecialOffer(int quantity, int offerPrice) {
+            this.offerPrice = offerPrice;
+            this.quantity = quantity;
+        }
     }
 }
+
 

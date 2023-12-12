@@ -1,5 +1,6 @@
 package befaster.solutions.SUM;
 
+import befaster.solutions.CHK.CheckoutSolution;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -9,14 +10,32 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class SumSolutionTest {
     private SumSolution sum;
+    private CheckoutSolution checkoutSolution;
 
     @BeforeEach
     public void setUp() {
         sum = new SumSolution();
+        checkoutSolution = new CheckoutSolution();
     }
 
     @Test
     public void compute_sum() {
         assertThat(sum.compute(1, 1), equalTo(2));
     }
+
+    @Test
+    public void checkoutSolution_okWithPromotion() {
+        assertThat(checkoutSolution.checkout("AAAA"), equalTo(180));
+    }
+
+    @Test
+    public void checkoutSolution_invalid() {
+        assertThat(checkoutSolution.checkout("AAAA "), equalTo(-1));
+    }
+
+    @Test
+    public void checkoutSolution_allItems() {
+        assertThat(checkoutSolution.checkout("ABCD"), equalTo(115));
+    }
 }
+
