@@ -149,7 +149,55 @@ public class CheckoutSolution {
         totalPrice += itemCounts.getOrDefault('V', 0) / 3 * 130 + (itemCounts.getOrDefault('V', 0) % 3) / 2 * 90 +
                 ((itemCounts.getOrDefault('V', 0) % 3) % 2) * 50;
 
+        totalPrice +=  handleGroupDiscont(itemCounts, 'S', 'T', 'X', 'Y', 'Z');
         return totalPrice;
+    }
+
+    private int handleGroupDiscont(Map<Character, Integer> itemCounts, char... items) {
+        int groupCount = 0;
+
+        for (char item : items) {
+            groupCount += itemCounts.getOrDefault(item, 0);
+        }
+
+        int groupPrice = groupCount / 3 * 45;
+        int deductedItems  = groupCount / 3 * 3;
+
+        int zItems = 0;
+        for (Character item : items) {
+            if (item.equals('Z'))  {
+                zItems += itemCounts.getOrDefault(item, 0);
+            }
+        }
+
+        zItems = Math.max(0, zItems - deductedItems);
+        deductedItems = Math.max(0, deductedItems - zItems);
+        groupCount = Math.max(0, groupCount - zItems);
+
+        int stxyzItems = 0;
+        for (Character item : items) {
+            if (item.equals('S') || item.equals('T') || item.equals('Y'))  {
+                stxyzItems += itemCounts.getOrDefault(item, 0);
+            }
+        }
+
+        stxyzItems = Math.max(0, stxyzItems - deductedItems);
+        deductedItems = Math.max(0, deductedItems - stxyzItems);
+        groupCount = Math.max(0, groupCount - stxyzItems);
+
+        int xItems = 0;
+        for (Character item : items) {
+            if (item.equals('X'))  {
+                xItems += itemCounts.getOrDefault(item, 0);
+            }
+        }
+
+        xItems = Math.max(0, xItems - deductedItems);
+        deductedItems = Math.max(0, deductedItems - xItems);
+        groupCount = Math.max(0, groupCount - xItems);
+
+        groupPrice += zItems * 21 + stxyzItems * 20 + xItems * 17;
+
     }
 
     private int nonOfferItemsSum(char product, Map<Character, Integer> itemCounts) {
@@ -176,3 +224,4 @@ public class CheckoutSolution {
         }
     }
 }
+
