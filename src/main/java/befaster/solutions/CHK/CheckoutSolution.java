@@ -26,7 +26,7 @@ public class CheckoutSolution {
         specialOffers.put('B', offersB);
 
         List<SpecialOffer> offersE = new ArrayList<>();
-        offersE.add(new SpecialOffer(2, 0, 'B', 1));
+        offersE.add(new SpecialOffer(2, 30, 'B', 1));
         specialOffers.put('E', offersE);
     }
 
@@ -69,9 +69,7 @@ public class CheckoutSolution {
                     remainingCount -= freeItems * offer.getQuantity();
                 }
 
-                int currentTotal = offerCount * offer.getOfferPrice() +
-                        remainingCount * prices.get(item) +
-                        (count - remainingCount) * prices.get(item);
+                int currentTotal = offerCount * offer.getOfferPrice() + remainingCount * prices.get(item);
                 minTotal = Math.min(minTotal, currentTotal);
             }
 
@@ -118,3 +116,4 @@ public class CheckoutSolution {
         }
     }
 }
+
