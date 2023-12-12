@@ -1,12 +1,14 @@
 package befaster.solutions.CHK;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CheckoutSolution {
 
     private static final Map<Character, Integer> PRICE_TABLE = new HashMap<>();
-    private static final Map<Character, SpecialOffer> SPECIAL_OFFERS = new HashMap<>();
+    private static final Map<Character, List<SpecialOffer>> SPECIAL_OFFERS = new HashMap<>();
 
     static {
         PRICE_TABLE.put('A', 50);
@@ -15,10 +17,18 @@ public class CheckoutSolution {
         PRICE_TABLE.put('D', 15);
         PRICE_TABLE.put('E', 40);
 
-        SPECIAL_OFFERS.put('A', new SpecialOffer(3, 130));
-        SPECIAL_OFFERS.put('A', new SpecialOffer(5, 200));
-        SPECIAL_OFFERS.put('B', new SpecialOffer(2, 45));
-        SPECIAL_OFFERS.put('E', new SpecialOffer(2, 1, 'B'));
+        List<SpecialOffer> offersA = new ArrayList<>();
+        offersA.add(new SpecialOffer(3, 130));
+        offersA.add(new SpecialOffer(5, 200));
+        SPECIAL_OFFERS.put('A', offersA);
+
+        List<SpecialOffer> offersB = new ArrayList<>();
+        offersB.add(new SpecialOffer(2, 45));
+        SPECIAL_OFFERS.put('B', offersB);
+
+        List<SpecialOffer> offersE = new ArrayList<>();
+        offersE.add(new SpecialOffer(2, 1, 'B'));
+        SPECIAL_OFFERS.put('E', offersE);
     }
 
     public Integer checkout(String skus) {
@@ -56,10 +66,10 @@ public class CheckoutSolution {
             int count = entry.getValue();
 
             int price = PRICE_TABLE.getOrDefault(item, 0);
-            SpecialOffer specialOffer = SPECIAL_OFFERS.get(item);
+            List<SpecialOffer> specialOffers = SPECIAL_OFFERS.get(item);
 
-            if (specialOffer != null) {
-                totalPrice += calculateSpecialOfferPrice(count, price, specialOffer, itemCounts);
+            if (specialOffers != null) {
+                totalPrice += calculateSpecialOfferPrice(count, price, specialOffers, itemCounts);
             } else {
                 totalPrice += count * price;
             }
@@ -67,19 +77,24 @@ public class CheckoutSolution {
         return totalPrice;
     }
 
-    private int calculateSpecialOfferPrice(int count, int price, SpecialOffer specialOffer, Map<Character, Integer> itemCounts) {
-        if (specialOffer.quantity > 0 && count >= specialOffer.quantity) {
-            int specialPrice = (count / specialOffer.quantity) * specialOffer.price;
-            int remainingCount = count % specialOffer.quantity;
+    private int calculateSpecialOfferPrice(int count, int price, List<SpecialOffer> specialOffers, Map<Character, Integer> itemCounts) {
+        int maxDiscount = 0;
 
-            if (specialOffer.freeItemCount > 0 && itemCounts.containsKey(specialOffer.freeItem)) {
-                int freeItemCount = Math.min(itemCounts.get(specialOffer.freeItem), remainingCount);
-                remainingCount -= freeItemCount;
+        for (SpecialOffer offer : specialOffers) {
+            int offerCount = count / offer.quantity;
+            int remainingCount = count % offer.quantity;
+
+            int offerDiscount = offerCount * offer.price;
+
+            if (offer.freeItemCount > 0 && itemCounts.containsKey(offer.freeItem)) {
+                int freeItemCount = Math.min(itemCounts.get(offer.freeItem), remainingCount);
+                offerDiscount += freeItemCount * PRICE_TABLE.get(offer.freeItem);
             }
 
-            return specialPrice + remainingCount * price;
+            maxDiscount = Math.max(maxDiscount, offerDiscount);
         }
-        return count * price;
+
+        return maxDiscount;
     }
 
     private static class SpecialOffer {
@@ -100,6 +115,7 @@ public class CheckoutSolution {
         }
     }
 }
+
 
 
 
