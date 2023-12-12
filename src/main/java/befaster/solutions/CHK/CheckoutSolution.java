@@ -140,6 +140,16 @@ public class CheckoutSolution {
         totalPrice += itemCounts.getOrDefault('Q', 0) / 3 * 80 +
                 itemCounts.getOrDefault('Q', 0) % 3 * 30;
 
+        totalPrice += nonOfferItemsSum('R', itemCounts);
+
+        int UCount = itemCounts.getOrDefault('U', 0);
+        if (UCount > 0) {
+            totalPrice += itemCounts.get('U') / 4 * 120 + itemCounts.get('U') % 4 * 40;
+        }
+
+        totalPrice += itemCounts.getOrDefault('V', 0) / 3 * 120 + (itemCounts.getOrDefault('V', 0) % 3) / 2 * 90 +
+                ((itemCounts.getOrDefault('V', 0) % 3) % 2) * 50;
+
         return totalPrice;
     }
 
@@ -167,10 +177,3 @@ public class CheckoutSolution {
         }
     }
 }
-
-
-
-
-
-
-

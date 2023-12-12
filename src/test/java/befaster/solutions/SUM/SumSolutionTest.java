@@ -78,5 +78,3 @@ public class SumSolutionTest {
         assertThat(checkoutSolution.checkout("NNNMM"), equalTo(135));
     }
 }
-
-
