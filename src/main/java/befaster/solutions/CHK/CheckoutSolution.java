@@ -60,36 +60,16 @@ public class CheckoutSolution {
     }
 
     private int calculateTotalPrice(Map<Character, Integer> itemCounts) {
-        int totalPrice = 0;
-        for (Map.Entry<Character, Integer> entry : itemCounts.entrySet()) {
-            char item = entry.getKey();
-            int count = entry.getValue();
+       int ECount = itemCounts.get('E');
+       int BCount = itemCounts.get('B');
 
-            int price = PRICE_TABLE.getOrDefault(item, 0);
-            List<SpecialOffer> specialOffers = SPECIAL_OFFERS.get(item);
+       totalPrice = itemCounts.get('C') * PRICE_TABLE.get('C') + itemCounts.get('D') * PRICE_TABLE.get('D') +
+               itemCounts.get('E') * PRICE_TABLE.get('E');
 
-            if (specialOffers != null) {
-                totalPrice += calculateSpecialOfferPrice(count, specialOffers, itemCounts);
-            } else {
-                totalPrice += count * price;
-            }
-        }
-        return totalPrice;
+        itemCounts.put('B', itemCounts.getOrDefault('B', 0) ECount);
     }
 
-    private int calculateSpecialOfferPrice(int count, List<SpecialOffer> specialOffers, Map<Character, Integer> itemCounts) {
-        int price = 0;
-        for (SpecialOffer offer : specialOffers) {
-            if (offer.quantity >= count) {
-                if (offer.price != 0) {
-                    price += count / offer.quantity * offer.price;
-                    count = count % offer.quantity;
-                }
-            }
-        }
-        price += count * price;
-        return price;
-    }
+
 
     private static class SpecialOffer {
         int quantity;
@@ -110,6 +90,7 @@ public class CheckoutSolution {
         }
     }
 }
+
 
 
 
