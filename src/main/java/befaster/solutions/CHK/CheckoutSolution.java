@@ -18,17 +18,17 @@ public class CheckoutSolution {
         PRICE_TABLE.put('E', 40);
 
         List<SpecialOffer> offersA = new ArrayList<>();
-        offersA.add(new SpecialOffer(3, 130));
-        offersA.add(new SpecialOffer(5, 200));
+        offersA.add(new SpecialOffer(5, 130));
+        offersA.add(new SpecialOffer(3, 200));
         SPECIAL_OFFERS.put('A', offersA);
-
-        List<SpecialOffer> offersB = new ArrayList<>();
-        offersB.add(new SpecialOffer(2, 45));
-        SPECIAL_OFFERS.put('B', offersB);
 
         List<SpecialOffer> offersE = new ArrayList<>();
         offersE.add(new SpecialOffer(2, 1, 'B'));
         SPECIAL_OFFERS.put('E', offersE);
+
+        List<SpecialOffer> offersB = new ArrayList<>();
+        offersB.add(new SpecialOffer(2, 45));
+        SPECIAL_OFFERS.put('B', offersB);
     }
 
     public Integer checkout(String skus) {
@@ -69,7 +69,7 @@ public class CheckoutSolution {
             List<SpecialOffer> specialOffers = SPECIAL_OFFERS.get(item);
 
             if (specialOffers != null) {
-                totalPrice += calculateSpecialOfferPrice(count, price, specialOffers, itemCounts);
+                totalPrice += calculateSpecialOfferPrice(count, specialOffers, itemCounts);
             } else {
                 totalPrice += count * price;
             }
@@ -77,24 +77,18 @@ public class CheckoutSolution {
         return totalPrice;
     }
 
-    private int calculateSpecialOfferPrice(int count, int price, List<SpecialOffer> specialOffers, Map<Character, Integer> itemCounts) {
-        int maxDiscount = 0;
-
+    private int calculateSpecialOfferPrice(int count, List<SpecialOffer> specialOffers, Map<Character, Integer> itemCounts) {
+        int price = 0;
         for (SpecialOffer offer : specialOffers) {
-            int offerCount = count / offer.quantity;
-            int remainingCount = count % offer.quantity;
-
-            int offerDiscount = offerCount * offer.price;
-
-            if (offer.freeItemCount > 0 && itemCounts.containsKey(offer.freeItem)) {
-                int freeItemCount = Math.min(itemCounts.get(offer.freeItem), remainingCount);
-                offerDiscount += freeItemCount * PRICE_TABLE.get(offer.freeItem);
+            if (offer.quantity >= count) {
+                if (offer.price != 0) {
+                    price += count / offer.quantity * offer.price;
+                    count = count % offer.quantity;
+                }
             }
-
-            maxDiscount = Math.max(maxDiscount, offerDiscount);
         }
-
-        return maxDiscount;
+        price += count * price;
+        return price;
     }
 
     private static class SpecialOffer {
@@ -112,9 +106,11 @@ public class CheckoutSolution {
             this.quantity = quantity;
             this.freeItemCount = freeItemCount;
             this.freeItem = freeItem;
+            this.price = 0;
         }
     }
 }
+
 
 
 
