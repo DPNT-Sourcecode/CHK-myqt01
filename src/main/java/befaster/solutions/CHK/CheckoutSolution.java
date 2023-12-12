@@ -160,39 +160,21 @@ public class CheckoutSolution {
             groupCount += itemCounts.getOrDefault(item, 0);
         }
 
-        int groupPrice = groupCount / 3 * 45;
-        int deductedItems  = groupCount / 3 * 3;
+        int groupDiscounts = groupCount / 3;
 
-        int zItems = 0;
-        for (Character item : items) {
-            if (item.equals('Z'))  {
-                zItems += itemCounts.getOrDefault(item, 0);
-            }
+        for (char item : items) {
+            int deducted = Math.min(itemCounts.getOrDefault(item, 0), groupDiscounts * 3);
+            itemCounts.put(item, itemCounts.get(item) - deducted);
+            groupDiscounts -= deducted / 3;
         }
 
-        zItems = Math.max(0, zItems - deductedItems);
-        deductedItems = Math.max(0, deductedItems - zItems);
+        int groupPrice = groupDiscounts * 45;
 
-        int stxyzItems = 0;
-        for (Character item : items) {
-            if (item.equals('S') || item.equals('T') || item.equals('Y'))  {
-                stxyzItems += itemCounts.getOrDefault(item, 0);
-            }
-        }
-
-        stxyzItems = Math.max(0, stxyzItems - deductedItems);
-        deductedItems = Math.max(0, deductedItems - stxyzItems);
-
-        int xItems = 0;
-        for (Character item : items) {
-            if (item.equals('X'))  {
-                xItems += itemCounts.getOrDefault(item, 0);
-            }
-        }
-
-        xItems = Math.max(0, xItems - deductedItems);
-
-        groupPrice += zItems * 21 + stxyzItems * 20 + xItems * 17;
+        groupPrice += itemCounts.getOrDefault('Z', 0) * PRICE_TABLE.getOrDefault('Z', 0);
+        groupPrice += itemCounts.getOrDefault('S', 0) * PRICE_TABLE.getOrDefault('S', 0);
+        groupPrice += itemCounts.getOrDefault('T', 0) * PRICE_TABLE.getOrDefault('T', 0);
+        groupPrice += itemCounts.getOrDefault('Y', 0) * PRICE_TABLE.getOrDefault('Y', 0);
+        groupPrice += itemCounts.getOrDefault('X', 0) * PRICE_TABLE.getOrDefault('X', 0);
 
         return groupPrice;
     }
@@ -221,5 +203,6 @@ public class CheckoutSolution {
         }
     }
 }
+
 
 
