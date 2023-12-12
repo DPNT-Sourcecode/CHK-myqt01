@@ -9,6 +9,7 @@ public class CheckoutSolution {
 
     private static final Map<Character, Integer> PRICE_TABLE = new HashMap<>();
     private static final Map<Character, List<SpecialOffer>> SPECIAL_OFFERS = new HashMap<>();
+    private static Map<Character, Integer> itemCounts = new HashMap<>();
 
     static {
         PRICE_TABLE.put('A', 50);
@@ -17,7 +18,26 @@ public class CheckoutSolution {
         PRICE_TABLE.put('D', 15);
         PRICE_TABLE.put('E', 40);
         PRICE_TABLE.put('F', 10);
-
+        PRICE_TABLE.put('G', 20);
+        PRICE_TABLE.put('H', 10);
+        PRICE_TABLE.put('I', 35);
+        PRICE_TABLE.put('J', 60);
+        PRICE_TABLE.put('K', 80);
+        PRICE_TABLE.put('L', 90);
+        PRICE_TABLE.put('M', 15);
+        PRICE_TABLE.put('N', 40);
+        PRICE_TABLE.put('O', 10);
+        PRICE_TABLE.put('P', 50);
+        PRICE_TABLE.put('Q', 30);
+        PRICE_TABLE.put('R', 50);
+        PRICE_TABLE.put('S', 30);
+        PRICE_TABLE.put('T', 20);
+        PRICE_TABLE.put('U', 40);
+        PRICE_TABLE.put('V', 50);
+        PRICE_TABLE.put('W', 20);
+        PRICE_TABLE.put('X', 90);
+        PRICE_TABLE.put('Y', 10);
+        PRICE_TABLE.put('Z', 50);
 
         List<SpecialOffer> offersA = new ArrayList<>();
         offersA.add(new SpecialOffer(5, 130));
@@ -54,7 +74,7 @@ public class CheckoutSolution {
     }
 
     private Map<Character, Integer> countItems(String skus) {
-        Map<Character, Integer> itemCounts = new HashMap<>();
+
         for (char item : skus.toCharArray()) {
             itemCounts.put(item, itemCounts.getOrDefault(item, 0) + 1);
         }
@@ -75,7 +95,6 @@ public class CheckoutSolution {
            totalPrice += itemCounts.get('B') / 2 * 45 + itemCounts.get('B') % 2 * 30;
        }
 
-
         totalPrice += itemCounts.getOrDefault('A', 0) / 5 * 200 + (itemCounts.getOrDefault('A', 0) % 5) / 3 * 130 +
                 ((itemCounts.getOrDefault('A', 0) % 5) % 3) * 50;
 
@@ -84,9 +103,17 @@ public class CheckoutSolution {
             totalPrice += itemCounts.get('F') / 3 * 20 + itemCounts.get('F') % 3 * 10;
         }
 
+        totalPrice += nonOfferItemsSum('G') + nonOfferItemsSum('I'), nonOfferItemsSum('J') +
+                nonOfferItemsSum('L') + nonOfferItemsSum('O') + nonOfferItemsSum('S') +
+                nonOfferItemsSum('T') + nonOfferItemsSum('W') + nonOfferItemsSum('X') +
+                nonOfferItemsSum('Y') + nonOfferItemsSum('Z')
+
         return totalPrice;
     }
 
+    private int nonOfferItemsSum(char product) {
+        return itemCounts.getOrDefault(product, 0) * PRICE_TABLE.getOrDefault(product, 0);
+    }
 
 
     private static class SpecialOffer {
@@ -108,5 +135,6 @@ public class CheckoutSolution {
         }
     }
 }
+
 
 
