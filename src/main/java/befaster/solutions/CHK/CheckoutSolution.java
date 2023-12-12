@@ -175,7 +175,7 @@ public class CheckoutSolution {
             int remainingItems = groupCount % 3;
 
             while (remainingItems > 0) {
-                if (itemCounts.get('X') > 0) {
+                if (itemCounts.getOrDefault('X', 0) > 0) {
                     groupPrice += PRICE_TABLE.get('X');
                     int oldCount = itemCounts.get('X') - 1;
                     itemCounts.put('X', oldCount);
@@ -218,9 +218,3 @@ public class CheckoutSolution {
         }
     }
 }
-
-
-
-
-
-

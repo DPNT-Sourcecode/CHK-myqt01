@@ -88,5 +88,3 @@ public class SumSolutionTest {
         assertThat(checkoutSolution.checkout("STYX"), equalTo(62));
     }
 }
-
-
