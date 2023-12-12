@@ -162,10 +162,14 @@ public class CheckoutSolution {
 
         int groupDiscounts = groupCount / 3;
 
+        // Deduct items for the group discount
         for (char item : items) {
-            int deducted = Math.min(itemCounts.getOrDefault(item, 0), groupDiscounts * 3);
-            itemCounts.put(item, itemCounts.get(item) - deducted);
-            groupDiscounts -= deducted / 3;
+            Integer itemCount = itemCounts.get(item);
+            if (itemCount != null) {
+                int deducted = Math.min(itemCount, groupDiscounts * 3);
+                itemCounts.put(item, itemCount - deducted);
+                groupDiscounts -= deducted / 3;
+            }
         }
 
         int groupPrice = groupDiscounts * 45;
@@ -203,6 +207,7 @@ public class CheckoutSolution {
         }
     }
 }
+
 
 
 
