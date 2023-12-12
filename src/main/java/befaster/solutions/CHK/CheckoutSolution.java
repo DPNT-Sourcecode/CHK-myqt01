@@ -60,19 +60,20 @@ public class CheckoutSolution {
     }
 
     private int calculateTotalPrice(Map<Character, Integer> itemCounts) {
-       int ECount = itemCounts.get('E');
-       int BCount = itemCounts.get('B');
+       int ECount = itemCounts.getOrDefault('E', 0);
+       int BCount = itemCounts.getOrDefault('B', 0);
 
-       int totalPrice = itemCounts.get('C') * PRICE_TABLE.get('C') + itemCounts.get('D') * PRICE_TABLE.get('D') +
-               itemCounts.get('E') * PRICE_TABLE.get('E');
+       int totalPrice = itemCounts.getOrDefault('C', 0) * PRICE_TABLE.getOrDefault('C', 0) +
+               itemCounts.getOrDefault('D', 0) * PRICE_TABLE.getOrDefault('D', 0) +
+               itemCounts.getOrDefault('E', 0) * PRICE_TABLE.getOrDefault('E', 0);
 
         int updatedValue = Math.max(0, BCount - ECount / 2);
         itemCounts.put('B', updatedValue);
 
         totalPrice += itemCounts.get('B') / 2 * 45 + itemCounts.get('B') % 2 * 50;
 
-        totalPrice += itemCounts.get('A') / 5 * 200 + (itemCounts.get('A') % 5) / 3 * 130 +
-                ((itemCounts.get('A') % 5) % 3) * 50;
+        totalPrice += itemCounts.getOrDefault('A', 0) / 5 * 200 + (itemCounts.getOrDefault('A', 0) % 5) / 3 * 130 +
+                ((itemCounts.getOrDefault('A', 0) % 5) % 3) * 50;
 
 
         return totalPrice;
@@ -99,5 +100,6 @@ public class CheckoutSolution {
         }
     }
 }
+
 
 
