@@ -63,6 +63,3 @@ public class SumSolutionTest {
         assertThat(checkoutSolution.checkout("FFFF"), equalTo(30));
     }
 }
-
-
-

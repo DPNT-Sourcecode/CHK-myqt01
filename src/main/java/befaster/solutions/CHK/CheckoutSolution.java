@@ -107,11 +107,3 @@ public class CheckoutSolution {
         }
     }
 }
-
-
-
-
-
-
-
-
