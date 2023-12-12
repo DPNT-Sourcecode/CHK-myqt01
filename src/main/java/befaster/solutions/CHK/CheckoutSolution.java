@@ -9,7 +9,6 @@ public class CheckoutSolution {
 
     private static final Map<Character, Integer> PRICE_TABLE = new HashMap<>();
     private static final Map<Character, List<SpecialOffer>> SPECIAL_OFFERS = new HashMap<>();
-    private static Map<Character, Integer> itemCounts = new HashMap<>();
 
     static {
         PRICE_TABLE.put('A', 50);
@@ -74,6 +73,8 @@ public class CheckoutSolution {
     }
 
     private Map<Character, Integer> countItems(String skus) {
+        Map<Character, Integer> itemCounts = new HashMap<>();
+
 
         for (char item : skus.toCharArray()) {
             itemCounts.put(item, itemCounts.getOrDefault(item, 0) + 1);
@@ -103,10 +104,10 @@ public class CheckoutSolution {
             totalPrice += itemCounts.get('F') / 3 * 20 + itemCounts.get('F') % 3 * 10;
         }
 
-        totalPrice += nonOfferItemsSum('G') + nonOfferItemsSum('I') + nonOfferItemsSum('J') +
-                nonOfferItemsSum('L') + nonOfferItemsSum('O') + nonOfferItemsSum('S') +
-                nonOfferItemsSum('T') + nonOfferItemsSum('W') + nonOfferItemsSum('X') +
-                nonOfferItemsSum('Y') + nonOfferItemsSum('Z');
+        totalPrice += nonOfferItemsSum('G', itemCounts) + nonOfferItemsSum('I', itemCounts) + nonOfferItemsSum('J', itemCounts) +
+                nonOfferItemsSum('L', itemCounts) + nonOfferItemsSum('O', itemCounts) + nonOfferItemsSum('S', itemCounts) +
+                nonOfferItemsSum('T', itemCounts) + nonOfferItemsSum('W', itemCounts) + nonOfferItemsSum('X', itemCounts) +
+                nonOfferItemsSum('Y', itemCounts) + nonOfferItemsSum('Z', itemCounts);
 
         totalPrice += itemCounts.getOrDefault('H', 0) / 10 * 80 + (itemCounts.getOrDefault('H', 0) % 10) / 5 * 45 +
                 ((itemCounts.getOrDefault('H', 0) % 10) % 5) * 10;
@@ -123,7 +124,7 @@ public class CheckoutSolution {
             totalPrice += itemCounts.get('M') * 15;
         }
 
-        totalPrice += nonOfferItemsSum('N');
+        totalPrice += nonOfferItemsSum('N', itemCounts);
 
         totalPrice += itemCounts.getOrDefault('P', 0) / 5 * 200 +
                 itemCounts.getOrDefault('P', 0) % 5 * 50;
@@ -142,7 +143,7 @@ public class CheckoutSolution {
         return totalPrice;
     }
 
-    private int nonOfferItemsSum(char product) {
+    private int nonOfferItemsSum(char product, Map<Character, Integer> itemCounts) {
         return itemCounts.getOrDefault(product, 0) * PRICE_TABLE.getOrDefault(product, 0);
     }
 
@@ -166,6 +167,7 @@ public class CheckoutSolution {
         }
     }
 }
+
 
 
 
