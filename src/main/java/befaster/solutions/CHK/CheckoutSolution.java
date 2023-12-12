@@ -1,13 +1,12 @@
 package befaster.solutions.CHK;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class CheckoutSolution {
-    static Map<Character, Integer> prices = new HashMap<>();
-    static Map<Character, List<SpecialOffer>> specialOffers = new HashMap<>();
+    private static final Map<Character, Integer> prices = new HashMap<>();
+    private static final Map<Character, List<SpecialOffer>> specialOffers = new HashMap<>();
 
     static {
         prices.put('A', 50);
@@ -16,28 +15,19 @@ public class CheckoutSolution {
         prices.put('D', 15);
         prices.put('E', 40);
 
-        List<SpecialOffer> offersA = new ArrayList<>();
-        offersA.add(new SpecialOffer(3, 130));
-        offersA.add(new SpecialOffer(5, 200));
+        List<SpecialOffer> offersA = List.of(new SpecialOffer(3, 130), new SpecialOffer(5, 200));
         specialOffers.put('A', offersA);
 
-        List<SpecialOffer> offersB = new ArrayList<>();
-        offersB.add(new SpecialOffer(2, 45));
+        List<SpecialOffer> offersB = List.of(new SpecialOffer(2, 45));
         specialOffers.put('B', offersB);
-
-
-        List<SpecialOffer> offersE = new ArrayList<>();
-        offersE.add(new SpecialOffer(2, 0, 'B', 1));
-        specialOffers.put('E', offersE);
     }
 
     public Integer checkout(String skus) {
-
-
-        if (skus == null || skus.isEmpty())  return 0;
+        if (skus == null || skus.isEmpty()) {
+            return 0;
+        }
 
         int totalPrice = 0;
-
         Map<Character, Integer> itemCounts = new HashMap<>();
 
         for (char item : skus.toCharArray()) {
@@ -50,38 +40,38 @@ public class CheckoutSolution {
         for (Map.Entry<Character, Integer> entry : itemCounts.entrySet()) {
             Character item = entry.getKey();
             int count = entry.getValue();
-            totalPrice += calcualteItemTotal(item, count, itemCounts);
-
+            totalPrice += calculateItemTotal(item, count, itemCounts);
         }
 
         return totalPrice;
     }
 
-    private static int calcualteItemTotal(char item, int count, Map<Character, Integer> itemCounts) {
+    private int calculateItemTotal(char item, int count, Map<Character, Integer> itemCounts) {
         if (count > 0 && specialOffers.containsKey(item)) {
             List<SpecialOffer> offers = specialOffers.get(item);
             int minTotal = Integer.MAX_VALUE;
 
-            for(SpecialOffer offer : offers) {
+            for (SpecialOffer offer : offers) {
                 int offerCount = count / offer.quantity;
                 int remainingCount = count % offer.quantity;
-                int freeItemCount = 0;
+                int freeItemCount = getFreeItemCount(offer.freeItem, itemCounts);
 
-                if (offer.freeItem != '\0' && itemCounts.containsKey(offer.freeItem)) {
-                    freeItemCount= itemCounts.get(offer.freeItem);
-                    int freeItems = Math.min(offer.freeItemCount, offerCount * offer.quantity);
-                    remainingCount -= freeItems / offer.quantity;
-                }
-
-                int currentTotal = offerCount * offer.offerPrice + remainingCount * prices.get(item) +
-                        calcualteItemTotal(offer.freeItem, freeItemCount, itemCounts);
+                int currentTotal = offerCount * offer.offerPrice +
+                        calculateItemTotal(offer.freeItem, freeItemCount, itemCounts) +
+                        remainingCount * prices.get(item);
 
                 minTotal = Math.min(minTotal, currentTotal);
             }
-            return  minTotal;
+            return minTotal;
         } else {
             return count * prices.get(item);
         }
+    }
+
+    private int getFreeItemCount(char freeItem, Map<Character, Integer> itemCounts) {
+        return freeItem != '\0' && itemCounts.containsKey(freeItem)
+                ? itemCounts.get(freeItem)
+                : 0;
     }
 
     private static class SpecialOffer {
@@ -105,5 +95,6 @@ public class CheckoutSolution {
         }
     }
 }
+
 
 
