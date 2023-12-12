@@ -35,7 +35,7 @@ public class SumSolutionTest {
 
     @Test
     public void checkoutSolution_allItems() {
-        assertThat(checkoutSolution.checkout("ABCD"), equalTo(115));
+        assertThat(checkoutSolution.checkout("CBD"), equalTo(95));
     }
 
     @Test
@@ -58,3 +58,4 @@ public class SumSolutionTest {
         assertThat(checkoutSolution.checkout("EEB"), equalTo(80));
     }
 }
+
