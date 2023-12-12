@@ -147,7 +147,7 @@ public class CheckoutSolution {
             totalPrice += itemCounts.get('U') / 4 * 120 + itemCounts.get('U') % 4 * 40;
         }
 
-        totalPrice += itemCounts.getOrDefault('V', 0) / 3 * 120 + (itemCounts.getOrDefault('V', 0) % 3) / 2 * 90 +
+        totalPrice += itemCounts.getOrDefault('V', 0) / 3 * 130 + (itemCounts.getOrDefault('V', 0) % 3) / 2 * 90 +
                 ((itemCounts.getOrDefault('V', 0) % 3) % 2) * 50;
 
         return totalPrice;
@@ -177,3 +177,4 @@ public class CheckoutSolution {
         }
     }
 }
+
