@@ -37,5 +37,9 @@ public class SumSolutionTest {
     public void checkoutSolution_allItems() {
         assertThat(checkoutSolution.checkout("ABCD"), equalTo(115));
     }
-}
 
+    @Test
+    public void checkoutSolution_allItemsAndPromotion() {
+        assertThat(checkoutSolution.checkout("ABCAAAD"), equalTo(245));
+    }
+}
