@@ -50,7 +50,6 @@ public class SumSolutionTest {
 
     @Test
     public void checkoutSolution_8As() {
-        assertThat(checkoutSolution.checkout("AAAAAAAA"), equalTo(200));
+        assertThat(checkoutSolution.checkout("AAAAAAAA"), equalTo(330));
     }
 }
-

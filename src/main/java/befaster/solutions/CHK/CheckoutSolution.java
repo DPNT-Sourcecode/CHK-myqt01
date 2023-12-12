@@ -65,11 +65,13 @@ public class CheckoutSolution {
 
                 if (offer.getFreeItem() != '\0' && itemCounts.containsKey(offer.getFreeItem())) {
                     int freeItemCount = itemCounts.get(offer.getFreeItem());
-                    int freeItems = Math.min(offer.getFreeItemCount(), offerCount * offer.getQuantity());
-                    remainingCount -= freeItems / offer.getQuantity();
+                    int freeItems = Math.min(offer.getFreeItemCount(), offerCount);
+                    remainingCount -= freeItems * offer.getQuantity();
                 }
 
-                int currentTotal = offerCount * offer.getOfferPrice() + remainingCount * prices.get(item);
+                int currentTotal = offerCount * offer.getOfferPrice() +
+                        remainingCount * prices.get(item) +
+                        (count - remainingCount) * prices.get(item);
                 minTotal = Math.min(minTotal, currentTotal);
             }
 
@@ -116,8 +118,3 @@ public class CheckoutSolution {
         }
     }
 }
-
-
-
-
-
