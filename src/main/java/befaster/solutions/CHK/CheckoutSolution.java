@@ -63,10 +63,15 @@ public class CheckoutSolution {
        int ECount = itemCounts.get('E');
        int BCount = itemCounts.get('B');
 
-       totalPrice = itemCounts.get('C') * PRICE_TABLE.get('C') + itemCounts.get('D') * PRICE_TABLE.get('D') +
+       int totalPrice = itemCounts.get('C') * PRICE_TABLE.get('C') + itemCounts.get('D') * PRICE_TABLE.get('D') +
                itemCounts.get('E') * PRICE_TABLE.get('E');
 
         int updatedValue = Math.max(0, BCount - ECount / 2);
+        itemCounts.put('B', updatedValue);
+
+        totalPrice += itemCounts.get('B') / 2 * 45 + itemCounts.get('B') % 2 * 50;
+
+        return totalPrice;
     }
 
 
@@ -90,3 +95,4 @@ public class CheckoutSolution {
         }
     }
 }
+
