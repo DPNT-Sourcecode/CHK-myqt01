@@ -17,26 +17,7 @@ public class CheckoutSolution {
         PRICE_TABLE.put('D', 15);
         PRICE_TABLE.put('E', 40);
         PRICE_TABLE.put('F', 10);
-        PRICE_TABLE.put('G', 20);
-        PRICE_TABLE.put('H', 10);
-        PRICE_TABLE.put('I', 35);
-        PRICE_TABLE.put('J', 60);
-        PRICE_TABLE.put('K', 80);
-        PRICE_TABLE.put('L', 90);
-        PRICE_TABLE.put('M', 15);
-        PRICE_TABLE.put('N', 40);
-        PRICE_TABLE.put('O', 10);
-        PRICE_TABLE.put('P', 50);
-        PRICE_TABLE.put('Q', 30);
-        PRICE_TABLE.put('R', 50);
-        PRICE_TABLE.put('S', 30);
-        PRICE_TABLE.put('T', 20);
-        PRICE_TABLE.put('U', 40);
-        PRICE_TABLE.put('V', 50);
-        PRICE_TABLE.put('W', 20);
-        PRICE_TABLE.put('X', 90);
-        PRICE_TABLE.put('Y', 10);
-        PRICE_TABLE.put('Z', 50);
+
 
         List<SpecialOffer> offersA = new ArrayList<>();
         offersA.add(new SpecialOffer(5, 130));
@@ -127,4 +108,5 @@ public class CheckoutSolution {
         }
     }
 }
+
 
