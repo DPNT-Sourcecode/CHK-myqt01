@@ -80,7 +80,7 @@ public class CheckoutSolution {
 
         int FCount = itemCounts.getOrDefault('F', 0);
         if (FCount > 0) {
-            totalPrice += itemCounts.get('B') / 3 * 20 + itemCounts.get('B') % 3 * 10;
+            totalPrice += itemCounts.get('F') / 3 * 20 + itemCounts.get('F') % 3 * 10;
         }
 
         return totalPrice;
@@ -107,6 +107,7 @@ public class CheckoutSolution {
         }
     }
 }
+
 
 
 
