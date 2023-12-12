@@ -162,42 +162,32 @@ public class CheckoutSolution {
 
         int groupDiscounts = groupCount / 3;
 
-        // Deduct items for the group discount
-        for (char item : items) {
-            Integer itemCount = itemCounts.get(item);
-            if (itemCount != null) {
-                int deducted = Math.min(itemCount, groupDiscounts * 3);
-                itemCounts.put(item, itemCount - deducted);
-                groupDiscounts -= deducted / 3;
-            }
-        }
-
         int groupPrice = groupDiscounts * 45;
 
         if (groupCount % 3 != 0) {
+            int stxyzItems = 0;
+            for (Character item : items) {
+                if (item.equals('S') || item.equals('T') || item.equals('Y'))  {
+                    stxyzItems += itemCounts.getOrDefault(item, 0);
+                }
+            }
+
             int remainingItems = groupCount % 3;
 
             while (remainingItems > 0) {
                 if (itemCounts.get('X') > 0) {
-                    groupPrice += itemCounts.get('X') * PRICE_TABLE.get('X');
+                    groupPrice += PRICE_TABLE.get('X');
                     int oldCount = itemCounts.get('X') - 1;
                     itemCounts.put('X', oldCount);
                     remainingItems--;
-                } else if ((itemCounts.containsKey('S') || itemCounts.containsKey('Y') || itemCounts.containsKey('T'))) {
-                    
+                } else if (stxyzItems > 0) {
+                    groupPrice += PRICE_TABLE.get('S');
+                    stxyzItems --;
+                    remainingItems--;
+                } else {
+                    remainingItems--;
+                    groupPrice += PRICE_TABLE.get('Z');
                 }
-            }
-
-
-
-            if ((itemCounts.containsKey('S') || itemCounts.containsKey('Y') || itemCounts.containsKey('T')) && remainingItems > 0) {
-                int minPriceItem = getMinPriceItem('S', 'Y', 'T');
-                groupPrice += itemCounts.get((char) minPriceItem) * PRICE_TABLE.get((char) minPriceItem);
-                remainingItems--;
-            }
-
-            if (remainingItems > 0) {
-                groupPrice += itemCounts.get('Z') * PRICE_TABLE.get('Z');
             }
         }
 
@@ -228,6 +218,7 @@ public class CheckoutSolution {
         }
     }
 }
+
 
 
 

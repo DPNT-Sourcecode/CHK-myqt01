@@ -85,7 +85,8 @@ public class SumSolutionTest {
 
     @Test
     public void checkoutSolution_STYX() {
-        assertThat(checkoutSolution.checkout("STYX"), equalTo(45));
+        assertThat(checkoutSolution.checkout("STYX"), equalTo(62));
     }
 }
+
 
