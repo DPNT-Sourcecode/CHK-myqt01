@@ -21,7 +21,7 @@ public class CheckoutSolution {
         PRICE_TABLE.put('H', 10);
         PRICE_TABLE.put('I', 35);
         PRICE_TABLE.put('J', 60);
-        PRICE_TABLE.put('K', 80);
+        PRICE_TABLE.put('K', 70);
         PRICE_TABLE.put('L', 90);
         PRICE_TABLE.put('M', 15);
         PRICE_TABLE.put('N', 40);
@@ -29,14 +29,14 @@ public class CheckoutSolution {
         PRICE_TABLE.put('P', 50);
         PRICE_TABLE.put('Q', 30);
         PRICE_TABLE.put('R', 50);
-        PRICE_TABLE.put('S', 30);
+        PRICE_TABLE.put('S', 20);
         PRICE_TABLE.put('T', 20);
         PRICE_TABLE.put('U', 40);
         PRICE_TABLE.put('V', 50);
         PRICE_TABLE.put('W', 20);
-        PRICE_TABLE.put('X', 90);
-        PRICE_TABLE.put('Y', 10);
-        PRICE_TABLE.put('Z', 50);
+        PRICE_TABLE.put('X', 17);
+        PRICE_TABLE.put('Y', 20);
+        PRICE_TABLE.put('Z', 21);
 
         List<SpecialOffer> offersA = new ArrayList<>();
         offersA.add(new SpecialOffer(5, 130));
@@ -112,8 +112,8 @@ public class CheckoutSolution {
         totalPrice += itemCounts.getOrDefault('H', 0) / 10 * 80 + (itemCounts.getOrDefault('H', 0) % 10) / 5 * 45 +
                 ((itemCounts.getOrDefault('H', 0) % 10) % 5) * 10;
 
-        totalPrice += itemCounts.getOrDefault('K', 0) / 2 * 150 +
-                itemCounts.getOrDefault('K', 0) % 2 * 80;
+        totalPrice += itemCounts.getOrDefault('K', 0) / 2 * 120 +
+                itemCounts.getOrDefault('K', 0) % 2 * 70;
 
         int NCount = itemCounts.getOrDefault('N', 0);
         int MCount = itemCounts.getOrDefault('M', 0);
@@ -177,4 +177,5 @@ public class CheckoutSolution {
         }
     }
 }
+
 
