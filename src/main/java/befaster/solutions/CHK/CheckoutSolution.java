@@ -67,13 +67,15 @@ public class CheckoutSolution {
                itemCounts.getOrDefault('D', 0) * PRICE_TABLE.getOrDefault('D', 0) +
                itemCounts.getOrDefault('E', 0) * PRICE_TABLE.getOrDefault('E', 0);
 
-        int updatedValue = Math.max(0, BCount - ECount / 2);
-        itemCounts.put('B', updatedValue);
+       if (BCount > 0) {
+           int updatedValue = Math.max(0, BCount - ECount / 2);
+           itemCounts.put('B', updatedValue);
+       }
 
-        totalPrice += itemCounts.get('B') / 2 * 45 + itemCounts.get('B') % 2 * 50;
+        totalPrice += itemCounts.get('B') / 2 * 45 + itemCounts.get('B') % 2 * 30;
 
-        // totalPrice += itemCounts.getOrDefault('A', 0) / 5 * 200 + (itemCounts.getOrDefault('A', 0) % 5) / 3 * 130 +
-        //        ((itemCounts.getOrDefault('A', 0) % 5) % 3) * 50;
+        totalPrice += itemCounts.getOrDefault('A', 0) / 5 * 200 + (itemCounts.getOrDefault('A', 0) % 5) / 3 * 130 +
+                ((itemCounts.getOrDefault('A', 0) % 5) % 3) * 50;
 
 
         return totalPrice;
@@ -100,6 +102,7 @@ public class CheckoutSolution {
         }
     }
 }
+
 
 
 
