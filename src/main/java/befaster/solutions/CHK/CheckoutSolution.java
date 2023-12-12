@@ -16,6 +16,7 @@ public class CheckoutSolution {
         PRICE_TABLE.put('C', 20);
         PRICE_TABLE.put('D', 15);
         PRICE_TABLE.put('E', 40);
+        PRICE_TABLE.put('F', 10);
 
         List<SpecialOffer> offersA = new ArrayList<>();
         offersA.add(new SpecialOffer(5, 130));
@@ -77,6 +78,10 @@ public class CheckoutSolution {
         totalPrice += itemCounts.getOrDefault('A', 0) / 5 * 200 + (itemCounts.getOrDefault('A', 0) % 5) / 3 * 130 +
                 ((itemCounts.getOrDefault('A', 0) % 5) % 3) * 50;
 
+        int FCount = itemCounts.getOrDefault('F', 0);
+        if (FCount > 0) {
+            totalPrice += itemCounts.get('B') / 3 * 20 + itemCounts.get('B') % 3 * 10;
+        }
 
         return totalPrice;
     }
@@ -102,6 +107,7 @@ public class CheckoutSolution {
         }
     }
 }
+
 
 
 
