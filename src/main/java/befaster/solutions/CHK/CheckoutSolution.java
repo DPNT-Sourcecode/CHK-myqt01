@@ -118,12 +118,27 @@ public class CheckoutSolution {
         int MCount = itemCounts.getOrDefault('M', 0);
 
         if (MCount > 0) {
-            int updatedValue = Math.max(0, MCount - NCount / 2);
+            int updatedValue = Math.max(0, MCount - NCount / 3);
             itemCounts.put('M', updatedValue);
             totalPrice += itemCounts.get('M') * 15;
         }
 
         totalPrice += nonOfferItemsSum('N');
+
+        totalPrice += itemCounts.getOrDefault('P', 0) / 5 * 200 +
+                itemCounts.getOrDefault('P', 0) % 5 * 50;
+
+        int RCount = itemCounts.getOrDefault('R', 0);
+        int QCount = itemCounts.getOrDefault('Q', 0);
+
+        if (MCount > 0) {
+            int updatedValue = Math.max(0, QCount - RCount / 3);
+            itemCounts.put('M', updatedValue);
+            totalPrice += itemCounts.get('M') * 15;
+        }
+
+        totalPrice += itemCounts.getOrDefault('Q', 0) / 3 * 80 +
+                itemCounts.getOrDefault('Q', 0) % 3 * 30;
 
         return totalPrice;
     }
@@ -152,6 +167,7 @@ public class CheckoutSolution {
         }
     }
 }
+
 
 
 
