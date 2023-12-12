@@ -131,10 +131,9 @@ public class CheckoutSolution {
         int RCount = itemCounts.getOrDefault('R', 0);
         int QCount = itemCounts.getOrDefault('Q', 0);
 
-        if (MCount > 0) {
+        if (QCount > 0) {
             int updatedValue = Math.max(0, QCount - RCount / 3);
-            itemCounts.put('M', updatedValue);
-            totalPrice += itemCounts.get('M') * 15;
+            itemCounts.put('Q', updatedValue);
         }
 
         totalPrice += itemCounts.getOrDefault('Q', 0) / 3 * 80 +
@@ -167,6 +166,7 @@ public class CheckoutSolution {
         }
     }
 }
+
 
 
 
