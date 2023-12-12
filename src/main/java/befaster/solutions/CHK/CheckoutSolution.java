@@ -106,7 +106,7 @@ public class CheckoutSolution {
 
         totalPrice += nonOfferItemsSum('G', itemCounts) + nonOfferItemsSum('I', itemCounts) + nonOfferItemsSum('J', itemCounts) +
                 nonOfferItemsSum('L', itemCounts) + nonOfferItemsSum('O', itemCounts) +
-                nonOfferItemsSum('W', itemCounts) + ;
+                nonOfferItemsSum('W', itemCounts);
 
         totalPrice += itemCounts.getOrDefault('H', 0) / 10 * 80 + (itemCounts.getOrDefault('H', 0) % 10) / 5 * 45 +
                 ((itemCounts.getOrDefault('H', 0) % 10) % 5) * 10;
@@ -149,11 +149,11 @@ public class CheckoutSolution {
         totalPrice += itemCounts.getOrDefault('V', 0) / 3 * 130 + (itemCounts.getOrDefault('V', 0) % 3) / 2 * 90 +
                 ((itemCounts.getOrDefault('V', 0) % 3) % 2) * 50;
 
-        totalPrice +=  handleGroupDiscont(itemCounts, 'S', 'T', 'X', 'Y', 'Z');
+        totalPrice +=  handleGroupDiscount(itemCounts, 'S', 'T', 'X', 'Y', 'Z');
         return totalPrice;
     }
 
-    private int handleGroupDiscont(Map<Character, Integer> itemCounts, char... items) {
+    private int handleGroupDiscount(Map<Character, Integer> itemCounts, char... items) {
         int groupCount = 0;
 
         for (char item : items) {
@@ -172,7 +172,6 @@ public class CheckoutSolution {
 
         zItems = Math.max(0, zItems - deductedItems);
         deductedItems = Math.max(0, deductedItems - zItems);
-        groupCount = Math.max(0, groupCount - zItems);
 
         int stxyzItems = 0;
         for (Character item : items) {
@@ -183,7 +182,6 @@ public class CheckoutSolution {
 
         stxyzItems = Math.max(0, stxyzItems - deductedItems);
         deductedItems = Math.max(0, deductedItems - stxyzItems);
-        groupCount = Math.max(0, groupCount - stxyzItems);
 
         int xItems = 0;
         for (Character item : items) {
@@ -193,11 +191,10 @@ public class CheckoutSolution {
         }
 
         xItems = Math.max(0, xItems - deductedItems);
-        deductedItems = Math.max(0, deductedItems - xItems);
-        groupCount = Math.max(0, groupCount - xItems);
 
         groupPrice += zItems * 21 + stxyzItems * 20 + xItems * 17;
 
+        return groupPrice;
     }
 
     private int nonOfferItemsSum(char product, Map<Character, Integer> itemCounts) {
@@ -224,4 +221,5 @@ public class CheckoutSolution {
         }
     }
 }
+
 

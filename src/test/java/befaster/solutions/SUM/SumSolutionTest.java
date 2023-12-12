@@ -70,11 +70,22 @@ public class SumSolutionTest {
 
     @Test
     public void checkoutSolution_kk() {
-        assertThat(checkoutSolution.checkout("KK"), equalTo(150));
+        assertThat(checkoutSolution.checkout("KK"), equalTo(120));
     }
 
     @Test
     public void checkoutSolution_3N2M() {
         assertThat(checkoutSolution.checkout("NNNMM"), equalTo(135));
     }
+
+    @Test
+    public void checkoutSolution_STX() {
+        assertThat(checkoutSolution.checkout("STX"), equalTo(45));
+    }
+
+    @Test
+    public void checkoutSolution_STYX() {
+        assertThat(checkoutSolution.checkout("STYX"), equalTo(45));
+    }
 }
+
