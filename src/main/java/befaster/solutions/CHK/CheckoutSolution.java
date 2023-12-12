@@ -71,6 +71,10 @@ public class CheckoutSolution {
 
         totalPrice += itemCounts.get('B') / 2 * 45 + itemCounts.get('B') % 2 * 50;
 
+        totalPrice += itemCounts.get('A') / 5 * 200 + (itemCounts.get('A') % 5) / 3 * 130 +
+                ((itemCounts.get('A') % 5) % 3) * 50;
+
+
         return totalPrice;
     }
 
@@ -95,4 +99,5 @@ public class CheckoutSolution {
         }
     }
 }
+
 
