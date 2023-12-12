@@ -1,33 +1,40 @@
 package befaster.solutions.CHK;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class CheckoutSolution {
-    private static final Map<Character, Integer> prices = new HashMap<>();
-    private static final Map<Character, List<SpecialOffer>> specialOffers = new HashMap<>();
+    public Integer checkout(String skus) {
 
-    static {
+        static Map<Character, Integer> prices = new HashMap<>();
+        Map<Character, List<SpecialOffer>> specialOffers = new HashMap<>();
+
         prices.put('A', 50);
         prices.put('B', 30);
         prices.put('C', 20);
         prices.put('D', 15);
         prices.put('E', 40);
 
-        List<SpecialOffer> offersA = List.of(new SpecialOffer(3, 130), new SpecialOffer(5, 200));
+        List<SpecialOffer> offersA = new ArrayList<>();
+        offersA.add(new SpecialOffer(3, 130));
+        offersA.add(new SpecialOffer(5, 200));
         specialOffers.put('A', offersA);
 
-        List<SpecialOffer> offersB = List.of(new SpecialOffer(2, 45));
+        List<SpecialOffer> offersB = new ArrayList<>();
+        offersB.add(new SpecialOffer(2, 45));
         specialOffers.put('B', offersB);
-    }
 
-    public Integer checkout(String skus) {
-        if (skus == null || skus.isEmpty()) {
-            return 0;
-        }
+
+        List<SpecialOffer> offersE = new ArrayList<>();
+        offersE.add(new SpecialOffer(2, 0, 'B', 1));
+        specialOffers.put('E', offersE);
+
+        if (skus == null || skus.isEmpty())  return 0;
 
         int totalPrice = 0;
+
         Map<Character, Integer> itemCounts = new HashMap<>();
 
         for (char item : skus.toCharArray()) {
@@ -40,38 +47,35 @@ public class CheckoutSolution {
         for (Map.Entry<Character, Integer> entry : itemCounts.entrySet()) {
             Character item = entry.getKey();
             int count = entry.getValue();
-            totalPrice += calculateItemTotal(item, count, itemCounts);
+
+
         }
 
         return totalPrice;
     }
 
-    private int calculateItemTotal(char item, int count, Map<Character, Integer> itemCounts) {
-        if (count > 0 && specialOffers.containsKey(item)) {
+    private static int calcualteItemTotal(char item, int count, Map<Character, Integer> itemCount) {
+        if (specialOffers.containsKey(item)) {
             List<SpecialOffer> offers = specialOffers.get(item);
             int minTotal = Integer.MAX_VALUE;
 
-            for (SpecialOffer offer : offers) {
+            for(SpecialOffer offer : offers) {
                 int offerCount = count / offer.quantity;
                 int remainingCount = count % offer.quantity;
-                int freeItemCount = getFreeItemCount(offer.freeItem, itemCounts);
 
-                int currentTotal = offerCount * offer.offerPrice +
-                        calculateItemTotal(offer.freeItem, freeItemCount, itemCounts) +
-                        remainingCount * prices.get(item);
+                if (offer.freeItem != '\0' && itemCounts.containsKey(offer.freeItem)) {
+                    int freeItemCount = itemCounts.get(offer.freeItem);
+                    int freeItems = Math.min(offer.freeItemCount, offerCount * offer.quantity);
+                    remainingCount -= freeItems / offer.quantity;
+                }
 
-                minTotal = Math.min(minTotal, currentTotal);
+                int currentTotal = offerCount * offer.offerPrice + remainingCount * prices.get(item) +
+
             }
-            return minTotal;
-        } else {
-            return count * prices.get(item);
-        }
-    }
 
-    private int getFreeItemCount(char freeItem, Map<Character, Integer> itemCounts) {
-        return freeItem != '\0' && itemCounts.containsKey(freeItem)
-                ? itemCounts.get(freeItem)
-                : 0;
+        } else {
+            totalPrice += count * prices.get(item);
+        }
     }
 
     private static class SpecialOffer {
@@ -95,6 +99,7 @@ public class CheckoutSolution {
         }
     }
 }
+
 
 
 
